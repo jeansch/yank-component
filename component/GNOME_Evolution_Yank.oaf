@@ -1,0 +1,29 @@
+<oaf_info>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Yank_ShellComponentFactory"
+	type="exe"
+	location="evolution-yank">
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/ObjectFactory:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string" 
+		_value="Factory for the Evolution yank component."/>
+</oaf_server>
+
+<oaf_server iid="OAFIID:GNOME_Evolution_Yank_ShellComponent"
+	type="factory"
+	location="OAFIID:GNOME_Evolution_Yank_ShellComponentFactory">
+
+	<oaf_attribute name="repo_ids" type="stringv">
+		<item value="IDL:GNOME/Evolution/ShellComponent:1.0"/>
+	</oaf_attribute>
+
+	<oaf_attribute name="description" type="string"
+		_value="Evolution component for the yank."/>
+
+	<oaf_attribute name="evolution:shell-component-icon" type="string"
+		       value="evolution-yank.png"/>
+</oaf_server>
+
+</oaf_info>

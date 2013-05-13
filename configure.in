@@ -1,0 +1,191 @@
+# Process this file with autoconf to produce a configure script.
+# (C)2001 Jean Schurger & Alcôve
+#
+# Thie file is licensed under the GNU GPL. See the file COPYING
+# for more information.
+#
+
+AC_INIT(README)
+AM_CONFIG_HEADER(config.h)
+
+YANK_MAJOR_VERSION=0
+YANK_MINOR_VERSION=0
+YANK_MICRO_VERSION=1
+VERSION=$YANK_MINOR_VERSION.$YANK_MICRO_VERSION
+PACKAGE=evolution-yank
+
+AM_INIT_AUTOMAKE($PACKAGE, $VERSION)
+AM_ACLOCAL_INCLUDE(macros)
+
+dnl ******************************
+dnl Standard autoconf stuff
+dnl ******************************
+
+dnl Automake does a whole bunch for us:
+dnl   AC_MAKE_SET, AC_PROG_INSTALL, AC_ARG_PROGRAM
+dnl   AC_CANONICAL_HOST. And probably others.
+dnl AC_ISC_POSIX does AC_PROG_CC
+dnl AC_STDC_HEADERS does AC_PROG_CPP
+dnl I'm not going to use the latter two, though, until I see the need.
+dnl [AC]_STDC_HEADERS
+
+dnl for AC_TRY_RUN, called by AM_GNOME_GETTEXT
+AC_ISC_POSIX
+
+dnl ******************************
+dnl XML i18n tools
+dnl ******************************
+
+AM_PROG_XML_I18N_TOOLS
+
+dnl ******************************
+dnl Automake stuff
+dnl ******************************
+
+AM_MAINTAINER_MODE
+AM_PROG_LIBTOOL
+
+dnl ******************************
+dnl GNOME stuff
+dnl ******************************
+
+GNOME_INIT
+GNOME_COMPILE_WARNINGS
+GNOME_X_CHECKS
+
+AC_SUBST(GTK_CFLAGS)
+AC_SUBST(GTK_LIBS)
+
+dnl ******************************
+dnl I18n
+dnl ******************************
+
+dnl dummy so xml-i18n-tools works
+ALL_LINGUAS="en_GB"
+
+AM_GNOME_GETTEXT
+localedir='$(prefix)/$(DATADIRNAME)/locale'
+AC_SUBST(localedir)
+
+dnl ******************************
+dnl gnome-xml
+dnl ******************************
+
+YANK_GNOME_COMPONENT(xml, 1.8.11, [GNOME XML], FAIL)
+
+dnl ******************************
+dnl gnome-vfs
+dnl ******************************
+
+YANK_GNOME_COMPONENT(vfs, 1.0.0, [GNOME VFS], FAIL)
+
+
+
+dnl ******************************
+dnl Gnome Application Libraries
+dnl ******************************
+
+YANK_GNOME_COMPONENT(gal, 0.6.0.0, [Gnome App Libs], FAIL)
+
+dnl ******************************
+dnl Bonobo
+dnl ******************************
+
+YANK_GNOME_COMPONENT(bonobo, 1.0.0, [Bonobo], FAIL)
+YANK_GNOME_COMPONENT(bonobox, 1.0.0, [Bonobo with X Windows], FAIL)
+
+dnl ******************************
+dnl Evolution prefix
+dnl ******************************
+
+YANK_SEARCH_PREFIXES([evolution],[  --with-evolution       Specify the location of Evolution],
+	[/usr /usr/local /opt/gnome /opt/evolution],[for Evolution's location],
+	[
+		pfxok=yes
+
+		test ! -x $testpfx/bin/evolution && pfxok=no
+		test ! -d $testpfx/share/evolution && pfxok=no
+	],
+	[Could not find an installation of Evolution. Please make sure that the Evolution development pacakges are installed.],
+	[erootdir])
+
+if test ! -d $erootdir/include/evolution/shell ; then
+	AC_MSG_ERROR([You need a newer version Evolution that installs libeshell.])
+fi
+
+EVOLUTION_CFLAGS="-I$erootdir/include/evolution -I$erootdir/include/evolution/shell"
+AC_SUBST(EVOLUTION_CFLAGS)
+
+dnl ******************************
+dnl Install override (for distcheck)
+dnl ******************************
+
+einstalldir="$erootdir"
+if test x"$YANK_OVERRIDE_EINSTALLDIR" = xyes ; then
+	einstalldir="$prefix"
+fi
+
+AC_SUBST(einstalldir)
+
+dnl ******************************
+dnl Get GNOME cflags / libs
+dnl ******************************
+
+YANK_GNOME_SOME_FLAGS([xml vfs gal bonobo bonobox bonobo_conf], YANK)
+
+dnl ******************************
+dnl Output
+dnl ******************************
+
+AC_OUTPUT([
+Makefile
+macros/Makefile
+intl/Makefile
+po/Makefile.in
+component/Makefile
+importer/Makefile
+default-user/Makefile
+art/Makefile
+ui/Makefile
+])
+
+dnl ******************************
+dnl Summary
+dnl ******************************
+
+dnl Capitalize PACKAGE.
+
+caplet=`echo $PACKAGE |sed -e 's,^\(.\).*,\1,' |tr 'abcdefghijklmnopqrstuvwxyz' 'ABCDEFGHIJKLMNOPQRSTUVWXYZ'`
+capother=`echo $PACKAGE |sed -e 's,^.\(.*\),\1,'`
+cappack="${caplet}${capother}"
+
+dnl Tadaa
+
+echo "
+	$cappack $VERSION has been configured as follows:
+
+	Prefix:             $prefix
+	Evolution's Prefix: $erootdir
+"
+
+dnl Warn if not in Evolution's prefix
+dnl If we're not in Evolution's prefix, can we work at all?
+
+if test x"$prefix" != x"$erootdir" ; then
+	echo "
+	Warning: $cappack would preferably be installed 
+	into the same prefix as Evolution itself. Try
+	running \"$0 --prefix=$erootdir\".
+"
+fi
+
+dnl Warn if einstalldir was overrided
+
+if test x"$erootdir" != x"$einstalldir" ; then
+	echo "
+	Warning: You have overridden the directory into which 
+	$cappack will install its files for Evolution. This
+	will probably prevent $cappack from correctly
+	interfacing with Evolution.
+"
+fi

@@ -1,0 +1,97 @@
+<Root>
+
+  <menu>
+
+		<submenu name="File">
+      <placeholder name="Print">
+      </placeholder>
+		</submenu>
+
+		<placeholder name="EditPlaceholder">
+    	<submenu name="Edit" _label="_Edit">
+	    	<placeholder name="Component">
+	      	<menuitem verb="v_selectall" _label="Select All"/>
+	      	<submenu _label="Sort List">
+						<menuitem name="mi_listdate" _label="List by date" verb="v_listdate"/>	
+						<menuitem name="mi_listpriority" _label="List by priority" verb="v_listpriority"/>	
+						<menuitem name="mi_listcompletion" _label="List by completion" verb="v_listcompletion"/>	
+						<menuitem name="mi_listtitle" _label="List by title" verb="v_listtitle"/>	
+						<menuitem name="mi_listdateprio" _label="List by date, then priority" verb="v_listdateprio"/>	
+						<menuitem name="mi_listpriodate" _label="List by priority, then date" verb="v_listpriodate"/>	
+					</submenu>
+	      	<menuitem verb="v_sorttree" _label="Sort Tree"/>
+					<submenu _label="Transform">
+						<menuitem name="mi_infotext" verb="v_intotext" _label="into a TextNote"/>
+						<menuitem name="mi_infocheck" verb="v_intocheck" _label="into a CheckNote"/>
+						<menuitem name="mi_infotodo" verb="v_intotodo" _label="into a TodoNote"/>
+					</submenu>
+					<submenu name="sm_textselect" _label="Text Selection">
+						<menuitem verb="v_openbrowser" _label="Open in browser"/>
+						<menuitem verb="v_viewmime" _label="View as MIME"/>
+						<menuitem verb="v_runcmd" _label="Run Command"/>
+						<menuitem verb="v_runpipe" _label="Run Pipe"/>
+					</submenu>
+	      	<menuitem name="mi_delete" verb="v_delete" _label="Delete"/>
+	      	<menuitem name="mi_find" verb="v_find" _label="Find"/>
+		  	</placeholder>
+	    </submenu>
+		</placeholder>
+
+    <submenu name="Actions" _label="_Actions">
+    	<placeholder name="Component">
+      	<menuitem name="mi_addtext" verb="v_addtext" _label="Add a TextNote"/>
+      	<menuitem name="mi_addcheck" verb="v_addcheck" _label="Add a CheckNote"/>
+      	<menuitem name="mi_addtodo" verb="v_addtodo" _label="Add a TodoNote"/>
+      </placeholder>
+    </submenu>
+
+    <submenu name="Tools" _label="_Tools">
+    	<placeholder name="Component">
+				<menuitem name="prefs" verb="v_prefs" _label="Yank Settings"/>
+	  	</placeholder>
+    </submenu>
+
+  </menu>
+
+  <dockitem name="Toolbar">
+
+    <toolitem name="tb_textnote" verb="v_addtext"
+    _label="TextNote" priority="1" _tip="Add a TextNote"
+    pixtype="pixbuf"/>
+
+
+    <toolitem name="tb_checknote" verb="v_addcheck"
+    _label="CheckNote" priority="1" _tip="Add a CheckNote"
+    pixtype="pixbuf"/>
+
+    <toolitem name="tb_todonote" verb="v_addtodo"
+    _label="TodoNote" priority="1" _tip="Add a TodoNote"
+    pixtype="pixbuf"/>
+
+		<separator/>
+
+  <toolitem name="tb_cut" verb="v_cut"
+    _label="Cut" priority="1" _tip="Cut"
+    pixtype="pixbuf"/>
+  <toolitem name="tb_copy" verb="v_copy"
+    _label="Copy" priority="1" _tip="Copy"
+    pixtype="pixbuf"/>
+  <toolitem name="tb_paste" verb="v_paste"
+    _label="Paste" priority="1" _tip="Paste"
+    pixtype="pixbuf"/>
+
+		<separator/>
+
+
+    <toolitem name="tb_delete" verb="v_delete"
+    _label="Delete" priority="1" _tip="Delete Note(s)"
+    pixtype="pixbuf"/>
+
+    <toolitem name="tb_find" verb="v_find"
+    _label="Find" priority="1" _tip="Delete Note(s)"
+    pixtype="pixbuf"/>
+
+ </dockitem>
+</Root>
+
+

@@ -1,0 +1,8 @@
+Evolution Yank Component
+------------------------
+(C)2001 Jean Schurger
+
+This is a simple proof-of-concept standalone Evolution (0.15) shell component
+that embed the Yank todo manager from Michael Hußmann.
+
+

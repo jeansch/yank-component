@@ -1,0 +1,21 @@
+--- /usr/share/gettext/intl/Makefile.in~	Wed Sep 22 23:05:07 1999
++++ /usr/share/gettext/intl/Makefile.in	Wed Apr  4 20:18:40 2001
+@@ -143,10 +143,14 @@
+ installcheck:
+ 
+ uninstall:
+-	dists="$(DISTFILES.common)"; \
+-	for file in $$dists; do \
+-	  rm -f $(gettextsrcdir)/$$file; \
+-	done
++	if test "$(PACKAGE)" = "gettext"; then \
++	  dists="$(DISTFILES.common)"; \
++	  for file in $$dists; do \
++	    rm -f $(gettextsrcdir)/$$file; \
++	 done; \
++	else \
++	  : ; \
++	fi
+ 
+ info dvi:
+ 
